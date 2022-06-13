@@ -9,7 +9,7 @@ profile:
   image: prof_pic.jpg
   address: >
     <p>Atlanta, GA 30332</p>
-    <p>vrao79 at gatech dot edu</p> 
+    <p>vrao79 [at] gatech.edu</p> 
 
 news: true  # includes a list of news items
 selected_papers: true # includes a list of papers marked as "selected={true}"
