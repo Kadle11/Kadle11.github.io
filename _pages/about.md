@@ -2,13 +2,13 @@
 layout: about
 title: about
 permalink: /
-subtitle: CS @ GaTech | Cloud SW @ Nvidia
+subtitle: CS @ GaTech | Cloud SW Intern @ Nvidia
 
 profile:
   align: right
   image: prof_pic.jpg
   address: >
-    <p>Atlanta, GA 30332</p>
+    <p>Atlanta, GA 30332</p> <br/>
     <p>vrao79 [at] gatech.edu</p> 
 
 news: true  # includes a list of news items
