@@ -6,7 +6,6 @@ img: assets/img/JaegerRequestAnalysis.jpg
 github: https://github.com/Kadle11/JaegerRequestAnalysis
 importance: 2
 langs: [py, sh]
-category: work
+category: Misc
+redirect: https://github.com/Kadle11/JaegerRequestAnalysis
 ---
-
-Hello World

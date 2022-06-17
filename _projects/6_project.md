@@ -6,5 +6,6 @@ img: assets/img/GoFlip.png
 github: https://github.com/Kadle11/GoFlip
 langs: [go]
 importance: 4
-# category: fun
+category: Misc
+redirect: https://github.com/Kadle11/GoFlip
 ---

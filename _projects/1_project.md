@@ -6,5 +6,6 @@ img: assets/img/HeatMap.png
 github: https://github.com/Kadle11/CPU_Heatmap
 langs: [py, sh]
 importance: 1
-# category: work
+category: Misc
+redirect: https://github.com/Kadle11/CPU_Heatmap
 ---
