@@ -4,7 +4,7 @@ title: Projects
 permalink: /projects/
 description: Some of my interesting projects.
 nav: true
-display_categories: [Misc, Academics]
+display_categories: [Research, Misc, Academics]
 horizontal: false
 ---
 
