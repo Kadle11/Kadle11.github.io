@@ -26,7 +26,7 @@ I was tasked with developing a low latency program that split matrices of arbitr
 
 5. De-Padding the padded result to obtain the final product.
 
-The program developed used 4 threads so that operations could be performed in parallel to minimize the time the FPGA was idle. The whole program was able to perform MatMul at a sustained throughput of 1 TFLOP without the help of the MKL library. 
+The program developed used 4 threads, that used [ZeroMQ Pipes](https://zeromq.org/) to commuicate, so that operations could be performed in parallel to minimize the time the FPGA was idle. The whole program was able to perform MatMul at a sustained throughput of 1 TFLOP without the help of the MKL library. 
 
 ## Fooling the Linker - The _LD_PRELOAD_ Trick
 

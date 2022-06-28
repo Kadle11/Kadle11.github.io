@@ -16,24 +16,26 @@
           <h4 class="card-title">{{ project.title }}</h4>
           <p class="card-text">{{ project.description }}</p>
           <div class="row ml-1 mr-1 p-0">
-            {%- if project.github -%}
-            <div class="github-icon">
+            {%- if project.github or project.langs.size > 0 -%}
+            <div class="github-icon" >
               <div class="icon" data-toggle="tooltip" title="Code Repository">
-                <a href="{{ project.github }}"><i class="fab fa-github gh-icon"></i></a>
+                {%- if project.github -%}
+                <a href="{{ project.github }}" style="padding-right:1em;"><i class="fab fa-github gh-icon"></i></a>
+                {%- endif -%}
                 {%- if project.langs contains "py" -%}
-                <a style="padding-left:1em;"><i class="fab fa-python"></i></a>
+                <a style="padding-right:1em;"><i class="fab fa-python"></i></a>
                 {%- endif -%}
                 {%- if project.langs contains "cpp" -%}
-                <a style="padding-left:1em;"><i class="fab fa-cuttlefish">++</i></a>
+                <a style="padding-right:1em;"><i class="fab fa-cuttlefish">++</i></a>
                 {%- endif -%}
                 {%- if project.langs contains "c" -%}
-                <a style="padding-left:1em;"><i class="fab fa-c"></i></a>
+                <a style="padding-right:1em;"><i class="fab fa-c"></i></a>
                 {%- endif -%}
                 {%- if project.langs contains "go" -%}
-                <a style="padding-left:1em;"><i class="fa-brands fa-golang"></i></a>
+                <a style="padding-right:1em;"><i class="fa-brands fa-golang"></i></a>
                 {%- endif -%}
                 {%- if project.langs contains "sh" -%}
-                <a style="padding-left:1em;"><i class="fa-solid fa-terminal"></i></a>
+                <a style="padding-right:1em;"><i class="fa-solid fa-terminal"></i></a>
                 {%- endif -%}
               </div>
               {%- if project.github_stars -%}
