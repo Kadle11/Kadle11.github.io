@@ -6,6 +6,6 @@ img: assets/img/GraphViz.png
 importance: 3
 langs: [cpp]
 github : https://github.com/Kadle11/Visualization_And_Operations_On_Graphs
-category: Academics
+category: Coursework
 redirect: https://github.com/Kadle11/Visualization_And_Operations_On_Graphs
 ---
