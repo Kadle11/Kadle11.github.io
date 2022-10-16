@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: CS @ GaTech | Cloud SW Intern @ Nvidia
+subtitle: CS @ GaTech
 
 profile:
   align: right
@@ -17,11 +17,11 @@ social: true  # includes social icons at the bottom of the page
 ---
 
  I am a CS Grad Student at Georgia Tech specializing in Computing Systems. 
- Research regrading distributed systems, specifically diaggregated systems, interests me.
- I am also interested in resource management and scheduling, and OS performance. 
+ I am interested in research regarding Distributed Systems/Operating Systems, specifically in
+ improving resource utilization efficiency and reducing network communication overheads for datacenter workloads.
 
 ---
 
- I am currently a part of the Kernel Research Group at Georgia Tech, advised by Dr. Ada Gavrilovska.
+ I am currently a part of the Kernel Research Group at Georgia Tech, advised by Prof. Ada Gavrilovska.
  Prior to pursusing my MS at Georgia Tech, I worked at the Server Performance Team @ AMD. 
  
