@@ -23,5 +23,5 @@ social: true  # includes social icons at the bottom of the page
 ---
 
  I am currently a part of the Kernel Research Group at Georgia Tech, advised by Prof. Ada Gavrilovska.
- Prior to pursusing my MS at Georgia Tech, I worked at the Server Performance Team @ AMD. 
+ Prior to pursuing my M.S at Georgia Tech, I worked at the Server Performance Team @ AMD. 
  
