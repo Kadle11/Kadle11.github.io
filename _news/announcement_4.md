@@ -1,6 +1,6 @@
 ---
 layout: post
-date: 2021-05-21 15:59:00-0400
+date: 2020-01-06 15:59:00-0400
 inline: true
 ---
-[Paper Presentation at JSSPP](https://www.youtube.com/watch?v=IYotD9U8d5E&list=PLZ0E2QtDORVgu-oeLcGQaO7XFuFMwXTDn&index=3&t=1844s) (IPDPS '21).
+Won the best poster paper award in the [VLSI Design Conference - UDT 2020](https://vlsid.org/archives/2020/user-design-track/index.html).
