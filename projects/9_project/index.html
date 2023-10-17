@@ -2,16 +2,16 @@
 <html lang="en">
 
   <!-- Head -->
-  <head><meta http-equiv="refresh" content="3; url=https://kadle11.github.io/" />    <!-- Metadata, OpenGraph and Schema.org -->
+  <head>    <!-- Metadata, OpenGraph and Schema.org -->
     
 
     <!-- Standard metadata -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Vishal Rao | Page not found</title>
+    <title>Vishal Rao | Speeding up Matrix Multiplication</title>
     <meta name="author" content="Vishal  Rao" />
-    <meta name="description" content="Looks like there has been a mistake. Nothing exists here." />
+    <meta name="description" content="Matrix Multiplication using Intel's CPU+FPGA platform." />
 
 
     <!-- Bootstrap & MDB -->
@@ -31,7 +31,7 @@
     <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚛️</text></svg>">
     
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="https://kadle11.github.io/404.html">
+    <link rel="canonical" href="https://kadle11.github.io/projects/9_project/">
     
     <!-- Dark Mode -->
     
@@ -98,12 +98,47 @@
         <div class="post">
 
           <header class="post-header">
-            <h1 class="post-title">Page not found</h1>
-            <p class="post-description" style="text-align: justify">Looks like there has been a mistake. Nothing exists here.</p>
+            <h1 class="post-title">Speeding up Matrix Multiplication</h1>
+            <p class="post-description" style="text-align: justify">Matrix Multiplication using Intel's CPU+FPGA platform.</p>
           </header>
 
           <article>
-            <p>You will be redirected to the main page within 3 seconds. If not redirected, please click <a href="https://kadle11.github.io/">here</a>.</p>
+            <h2 id="motivation">Motivation</h2>
+
+<p>Matrix multiplication <em>(MatMul)</em> is an extremely common and important operation. It is used abundantly in fields like ML and Probability Modelling. One of the most commonly used libraries to perform MatMul is <a href="https://www.netlib.org/blas/" target="_blank" rel="noopener noreferrer">BLAS (Basic Linear Algebra Subroutines)</a> which implements this functionality in C and Fortran. Most platforms like <a href="https://www.intel.com/content/www/us/en/develop/documentation/oneapi-programming-guide/top/api-based-programming/intel-oneapi-math-kernel-library-onemkl.html" target="_blank" rel="noopener noreferrer">Intel’s MKL (Math Kernel Library)</a> use an optimized version of BLAS for MatMul. FPGAs can perform matrix multiplication very efficiently, with one caveat - The design permits multiplication of matrices of fixed sizes. The goal of this project was to split the work between the optimized MKL Library and the FPGA to speedup MatMul.</p>
+
+<h2 id="the-algorithm">The algorithm</h2>
+
+<p>I was tasked with developing a low latency program that split matrices of arbitrary sizes into matrcies of fixed sizes that could be fed to the FPGA. Once the FPGA performed the MatMuls, the program would then have to retrieve the results and perform specific matrix additions to obtain the final product. The algorithm I developed invloved 5 major operations -</p>
+
+<ol>
+  <li>
+    <p>Break Matrix into Smaller Chunks of Size ‘M x N’. (Required by the FPGA)</p>
+  </li>
+  <li>
+    <p>Pad the Chunks if Necessary and send the chunks to the FPGA for multiplication.</p>
+  </li>
+  <li>
+    <p>Retrieve the sub-products and perform the required additions.</p>
+  </li>
+  <li>
+    <p>Coalescing the Chunks to obtain the padded product.</p>
+  </li>
+  <li>
+    <p>De-Padding the padded result to obtain the final product.</p>
+  </li>
+</ol>
+
+<p>The program developed used 4 threads, that used <a href="https://zeromq.org/" target="_blank" rel="noopener noreferrer">ZeroMQ Pipes</a> to commuicate, so that operations could be performed in parallel to minimize the time the FPGA was idle. The whole program was able to perform MatMul at a sustained throughput of 1 TFLOP without the help of the MKL library.</p>
+
+<h2 id="fooling-the-linker---the-ld_preload-trick">Fooling the Linker - The <em>LD_PRELOAD</em> Trick</h2>
+
+<p>To put the program to the test we decided to use the <a href="https://kaldi-asr.org/doc/" target="_blank" rel="noopener noreferrer">Kaldi ASR</a> toolkit, which could be configured to use MKL. Our program’s imterface was mimicking MKL’s SGEMM (Single Precision General Matrix Multiplication) so that any framework could be retrofitted to use our code instead of MKL. The challenge here was to make the binary call our SGEMM instead of MKL’s SGEMM. To do this we used the LD_PRELOAD environment variable. This variable can be used to alter the resolution of symbols at runtime. First we inspected MKL’s shared object <em>(.so)</em> to find the symbol corresponding to MKL’s SGEMM. We then built our own shared object and made sure that our faux SGEMM resloved to the same symbol. Then, LD_PRELOAD was appended with the path to our library. Everytime, the SGEMM symbol was referenced, it resolved to our preloaded function as that was the first one it resolved to and our SGEMM was called. All the other MKL functionalities were from the actual MKL library so Kaldi worked like a charm.</p>
+
+<h2 id="when-a-microsecond-feels-like-a-lifetime">When a microsecond feels like a lifetime</h2>
+
+<p>I remember profiling code using <a href="https://valgrind.org/" target="_blank" rel="noopener noreferrer">Valgrind</a> and <a href="https://ftp.gnu.org/old-gnu/Manuals/gprof-2.9.1/html_mono/gprof.html" target="_blank" rel="noopener noreferrer">gProf</a> trying to find bottlenecks in my code. Fun fact, Valgrind uses <a href="https://valgrind.org/docs/manual/mc-tech-docs.html#mc-tech-docs.overview" target="_blank" rel="noopener noreferrer">LD_PRELOAD</a> too! While I was profiling my code, I saw many opportunities to overlap operations. For example, A new set of chunks could be created while sending the previous set to the FPGA. I created 4 threads, each taking advantage of a possible overlap and this saved a significant amount of time. 4096x4096 MatMuls showed improvement in the order of 10s of seconds and I was thrilled. Then came the hard part - The next set of inefficiencies I needed to find were more subtle and did not show as much improvement. Everytime I removed an extra initialization, changed a post-increment to a pre-increment, I saw improvement in the order of microseconds. These improvements were neccessary to reach the 1 TFLOP number and I had an amazing time finding these little tweaks.</p>
+
 
           </article>
 
