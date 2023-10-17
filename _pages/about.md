@@ -8,6 +8,8 @@ profile:
   align: right
   image: prof_pic.jpg
   address: >
+    <p>KACB 3110</p>
+    <p>Georgia Institute of Technology</p>
     <p>Atlanta, GA 30332</p> <br/>
     <p>vrao79 [at] gatech.edu</p> 
 
